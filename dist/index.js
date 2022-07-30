@@ -10,14 +10,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { webkit } from "playwright";
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const browser = yield webkit.launch({
-        headless: false,
-        // args: ["--disable-dev-shm-usage"],
+        headless: true,
+        //    args: ["--use-fake-ui-for-media-stream"],
     });
+    //const context = await browser.newContext({
+    //  permissions: ["camera", "microphone"],
+    //});
     const page = yield browser.newPage();
-    yield page.goto("https://meet.google.com/dqg-vnkg-kwz");
+    yield page.goto("https://meet.google.com/rki-vysb-kai");
+    yield page.screenshot({ path: 'example.png' });
     yield page.waitForSelector('input[type="text"]');
     yield page.type('input[type="text"]', "Music Bot");
     yield page.locator("text=Ask to join").click();
-    // await browser.close();
+    yield browser.close();
 }))();
 //# sourceMappingURL=index.js.map

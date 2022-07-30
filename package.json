@@ -8,7 +8,7 @@
     "@playwright/test": "^1.24.1",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
-    "eslint": "^8.2.0",
+    "eslint": "^8.20.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-node": "^4.1.0",
@@ -25,6 +25,8 @@
     "start": "npx tsc && node dist/index"
   },
   "dependencies": {
+    "eslint-cli": "^1.1.1",
+    "global": "^4.4.0",
     "playwright": "^1.24.1",
     "typescript": "^4.7.4"
   }
