@@ -1,24 +1,25 @@
-import { webkit } from "playwright";
+import { chromium } from "playwright-extra";
+import stealth from "puppeteer-extra-plugin-stealth";
+
+chromium.use(stealth());
 
 (async () => {
-  const browser = await webkit.launch({
-    headless: true,
-//    args: ["--use-fake-ui-for-media-stream"],
+  const browser = await chromium.launch({
+    args: ["--use-fake-ui-for-media-stream"],
   });
 
-  //const context = await browser.newContext({
-  //  permissions: ["camera", "microphone"],
-  //});
   const page = await browser.newPage();
 
   await page.goto("https://meet.google.com/rki-vysb-kai");
-
-  await page.screenshot({ path: 'example.png' });
 
   await page.waitForSelector('input[type="text"]');
   await page.type('input[type="text"]', "Music Bot");
 
   await page.locator("text=Ask to join").click();
 
-  await browser.close();
+  const unMuteButton = page.locator(
+    '[aria-label="Turn on microphone (⌘ + d)"]'
+  );
+
+  if (unMuteButton) await unMuteButton.click();
 })();

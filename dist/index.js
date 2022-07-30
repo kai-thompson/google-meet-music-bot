@@ -7,21 +7,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { webkit } from "playwright";
+import { chromium } from "playwright-extra";
+import stealth from "puppeteer-extra-plugin-stealth";
+chromium.use(stealth());
+const sleep = (ms) => new Promise((r) => {
+    setTimeout(r, ms);
+});
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const browser = yield webkit.launch({
-        headless: true,
-        //    args: ["--use-fake-ui-for-media-stream"],
+    const browser = yield chromium.launch({
+        args: ["--use-fake-ui-for-media-stream"],
     });
-    //const context = await browser.newContext({
-    //  permissions: ["camera", "microphone"],
-    //});
+    // const context = await browser.newContext({
+    //   permissions: ["microphone"],
+    // });
     const page = yield browser.newPage();
     yield page.goto("https://meet.google.com/rki-vysb-kai");
-    yield page.screenshot({ path: 'example.png' });
     yield page.waitForSelector('input[type="text"]');
     yield page.type('input[type="text"]', "Music Bot");
     yield page.locator("text=Ask to join").click();
-    yield browser.close();
+    // await page.locator('[aria-label="Turn on microphone (⌘ + d)"]').click();
 }))();
 //# sourceMappingURL=index.js.map

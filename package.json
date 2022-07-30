@@ -28,6 +28,9 @@
     "eslint-cli": "^1.1.1",
     "global": "^4.4.0",
     "playwright": "^1.24.1",
+    "playwright-extra": "^4.3.3",
+    "puppeteer": "^15.5.0",
+    "puppeteer-extra-plugin-stealth": "^2.11.0",
     "typescript": "^4.7.4"
   }
 }

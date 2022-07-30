@@ -1,3 +1,6 @@
+/* eslint-disable node/no-unpublished-import */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable node/no-unsupported-features/es-syntax */
 import type { PlaywrightTestConfig } from '@playwright/test';
 import { devices } from '@playwright/test';
 
@@ -13,7 +16,7 @@ import { devices } from '@playwright/test';
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 30 * 1000,
+  timeout: 5 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
