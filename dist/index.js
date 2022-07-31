@@ -12,18 +12,24 @@ import stealth from "puppeteer-extra-plugin-stealth";
 chromium.use(stealth());
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const browser = yield chromium.launch({
+        headless: false,
         args: ["--use-fake-ui-for-media-stream"],
     });
-    const page = yield browser.newPage();
-    yield page.goto("https://meet.google.com/vev-wnes-mpu");
-    yield page.waitForSelector('input[type="text"]');
-    yield page.type('input[type="text"]', "Music Bot");
-    const turnOffCameraButton = yield page.$('[aria-label="Turn off camera (⌘ + e)"]');
+    const googleMeetPage = yield browser.newPage();
+    yield googleMeetPage.goto("https://meet.google.com/fnj-dtse-orw");
+    yield googleMeetPage.waitForSelector('input[type="text"]');
+    yield googleMeetPage.type('input[type="text"]', "Music Bot");
+    const turnOffCameraButton = yield googleMeetPage.$('[aria-label="Turn off camera (⌘ + e)"]');
     if (turnOffCameraButton)
         yield turnOffCameraButton.click();
-    yield page.locator("text=Ask to join").click();
-    const unMuteButton = yield page.$('[aria-label="Turn on microphone (⌘ + d)"]');
+    yield googleMeetPage.locator("text=Ask to join").click();
+    const unMuteButton = yield googleMeetPage.$('[aria-label="Turn on microphone (⌘ + d)"]');
     if (unMuteButton)
         yield unMuteButton.click();
+    const soundCloudPage = yield browser.newPage();
+    yield soundCloudPage.goto("https://soundcloud.com/biggavelipro/invincible");
+    yield soundCloudPage
+        .locator("[class='sc-button-play playButton sc-button m-stretch']")
+        .click();
 }))();
 //# sourceMappingURL=index.js.map

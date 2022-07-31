@@ -5,25 +5,32 @@ chromium.use(stealth());
 
 (async () => {
   const browser = await chromium.launch({
+    headless: false,
     args: ["--use-fake-ui-for-media-stream"],
   });
 
-  const page = await browser.newPage();
+  const googleMeetPage = await browser.newPage();
 
-  await page.goto("https://meet.google.com/vev-wnes-mpu");
+  await googleMeetPage.goto("https://meet.google.com/fnj-dtse-orw");
 
-  await page.waitForSelector('input[type="text"]');
-  await page.type('input[type="text"]', "Music Bot");
+  await googleMeetPage.waitForSelector('input[type="text"]');
+  await googleMeetPage.type('input[type="text"]', "Music Bot");
 
-  const turnOffCameraButton = await page.$(
+  const turnOffCameraButton = await googleMeetPage.$(
     '[aria-label="Turn off camera (⌘ + e)"]'
   );
   if (turnOffCameraButton) await turnOffCameraButton.click();
-  
-  await page.locator("text=Ask to join").click();
 
-  const unMuteButton = await page.$(
+  await googleMeetPage.locator("text=Ask to join").click();
+
+  const unMuteButton = await googleMeetPage.$(
     '[aria-label="Turn on microphone (⌘ + d)"]'
   );
   if (unMuteButton) await unMuteButton.click();
+
+  const soundCloudPage = await browser.newPage();
+  await soundCloudPage.goto("https://soundcloud.com/biggavelipro/invincible");
+  await soundCloudPage
+    .locator("[class='sc-button-play playButton sc-button m-stretch']")
+    .click();
 })();
