@@ -1,6 +1,4 @@
-/* eslint-disable node/no-unpublished-import */
 /* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import type { PlaywrightTestConfig } from '@playwright/test';
 import { devices } from '@playwright/test';
 

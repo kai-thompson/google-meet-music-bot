@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "ES6",
+    "module": "CommonJS",
     "esModuleInterop": true,
-    "target": "es6",
+    "target": "ESNext",
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist"

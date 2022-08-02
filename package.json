@@ -1,6 +1,5 @@
 {
   "name": "google-meet-music-bot",
-  "type": "module",
   "version": "1.0.0",
   "main": "index.ts",
   "license": "MIT",
@@ -11,6 +10,7 @@
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.3",
@@ -22,11 +22,14 @@
     "prettier": "^2.7.1"
   },
   "scripts": {
-    "start": "npx tsc && node dist/index"
+    "start": "npx tsc && node dist/src/index"
   },
   "dependencies": {
+    "body-parser": "^1.20.0",
     "eslint-cli": "^1.1.1",
+    "express": "^4.18.1",
     "global": "^4.4.0",
+    "http-status": "^1.5.2",
     "playwright": "^1.24.1",
     "playwright-extra": "^4.3.3",
     "puppeteer": "^15.5.0",
