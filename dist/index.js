@@ -12,24 +12,30 @@ import stealth from "puppeteer-extra-plugin-stealth";
 chromium.use(stealth());
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const browser = yield chromium.launch({
+        channel: "chrome",
         headless: false,
-        args: ["--use-fake-ui-for-media-stream"],
+        args: [
+            "--use-fake-ui-for-media-stream",
+            "--enable-usermedia-screen-capturing",
+            "--allow-http-screen-capture",
+            "--auto-select-desktop-capture-source=autoPresentThisTitle",
+        ],
     });
-    const googleMeetPage = yield browser.newPage();
-    yield googleMeetPage.goto("https://meet.google.com/fnj-dtse-orw");
-    yield googleMeetPage.waitForSelector('input[type="text"]');
-    yield googleMeetPage.type('input[type="text"]', "Music Bot");
-    const turnOffCameraButton = yield googleMeetPage.$('[aria-label="Turn off camera (⌘ + e)"]');
-    if (turnOffCameraButton)
-        yield turnOffCameraButton.click();
-    yield googleMeetPage.locator("text=Ask to join").click();
-    const unMuteButton = yield googleMeetPage.$('[aria-label="Turn on microphone (⌘ + d)"]');
-    if (unMuteButton)
-        yield unMuteButton.click();
-    const soundCloudPage = yield browser.newPage();
-    yield soundCloudPage.goto("https://soundcloud.com/biggavelipro/invincible");
-    yield soundCloudPage
-        .locator("[class='sc-button-play playButton sc-button m-stretch']")
-        .click();
+    const context = yield browser.newContext();
+    const page = yield context.newPage();
+    yield page.goto("https://meet.google.com/rkv-coiq-zpi");
+    yield page.waitForSelector('input[type="text"]');
+    yield page.type('input[type="text"]', "Music Bot");
+    yield page.locator('[aria-label="Turn off camera (⌘ + e)"]').click();
+    yield page.locator("text=Ask to join").click();
+    const newPage = yield context.newPage();
+    yield newPage.bringToFront();
+    yield newPage.goto("https://soundcloud.com/biggavelipro/invincible");
+    yield newPage.evaluate(() => {
+        document.title = "autoPresentThisTitle";
+    });
+    yield page.bringToFront();
+    yield page.locator('[aria-label="Present now"]').click();
+    yield page.locator("text=A tab").click();
 }))();
 //# sourceMappingURL=index.js.map

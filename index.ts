@@ -5,32 +5,38 @@ chromium.use(stealth());
 
 (async () => {
   const browser = await chromium.launch({
+    channel: "chrome",
     headless: false,
-    args: ["--use-fake-ui-for-media-stream"],
+    args: [
+      "--use-fake-ui-for-media-stream",
+      "--enable-usermedia-screen-capturing",
+      "--allow-http-screen-capture",
+      "--auto-select-desktop-capture-source=autoPresentThisTitle",
+    ],
   });
 
-  const googleMeetPage = await browser.newPage();
+  const context = await browser.newContext();
 
-  await googleMeetPage.goto("https://meet.google.com/fnj-dtse-orw");
+  const page = await context.newPage();
 
-  await googleMeetPage.waitForSelector('input[type="text"]');
-  await googleMeetPage.type('input[type="text"]', "Music Bot");
+  await page.goto("https://meet.google.com/rkv-coiq-zpi");
 
-  const turnOffCameraButton = await googleMeetPage.$(
-    '[aria-label="Turn off camera (⌘ + e)"]'
-  );
-  if (turnOffCameraButton) await turnOffCameraButton.click();
+  await page.waitForSelector('input[type="text"]');
+  await page.type('input[type="text"]', "Music Bot");
 
-  await googleMeetPage.locator("text=Ask to join").click();
+  await page.locator('[aria-label="Turn off camera (⌘ + e)"]').click();
 
-  const unMuteButton = await googleMeetPage.$(
-    '[aria-label="Turn on microphone (⌘ + d)"]'
-  );
-  if (unMuteButton) await unMuteButton.click();
+  await page.locator("text=Ask to join").click();
 
-  const soundCloudPage = await browser.newPage();
-  await soundCloudPage.goto("https://soundcloud.com/biggavelipro/invincible");
-  await soundCloudPage
-    .locator("[class='sc-button-play playButton sc-button m-stretch']")
-    .click();
+  const newPage = await context.newPage();
+
+  await newPage.bringToFront();
+  await newPage.goto("https://soundcloud.com/biggavelipro/invincible");
+  await newPage.evaluate(() => {
+    document.title = "autoPresentThisTitle";
+  });
+  await page.bringToFront();
+
+  await page.locator('[aria-label="Present now"]').click();
+  await page.locator("text=A tab").click();
 })();
