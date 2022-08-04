@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { chromium } from "playwright-extra";
 import stealth from "puppeteer-extra-plugin-stealth";
 
@@ -8,6 +9,8 @@ chromium.use(stealth());
 class BotManager {
   public bot = null;
   private browser = null;
+
+  private features = [];
 
   constructor() {}
 
@@ -22,14 +25,25 @@ class BotManager {
         "--auto-select-desktop-capture-source=autoPresentThisTitle",
       ],
     });
+
+    await this.loadFeatures();
   }
 
   async createBot(url: string) {
-    this.bot = new MusicBot(url, this.browser);
+    this.bot = new MusicBot(url, this.browser, this.features);
+    return this.bot;
   }
 
-  getBot() {
-    return this.bot;
+  private async loadFeatures() {
+    const featureFiles = fs
+      .readdirSync("src/bot/features")
+      .filter((file): boolean => file.includes("feature"));
+
+    for (const featureFile of featureFiles) {
+      const feature = await import(`./bot/features/${featureFile}`);
+
+      this.features.push(feature.default);
+    }
   }
 }
 

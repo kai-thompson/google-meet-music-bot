@@ -1,8 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
-import router from "./routes/index.js";
+import router from "./routes/index";
 
-import BotManager from "../bot-manager.js";
+import BotManager from "../botManager";
 
 const PORT = 8080;
 const app = express();

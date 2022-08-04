@@ -18,7 +18,7 @@ router.post("/join", async (req, res) => {
 
   await botManager.createBot(meetUrl);
 
-  res.status(httpStatus.OK);
+  res.status(httpStatus.OK).send();
 });
 
 export default router;

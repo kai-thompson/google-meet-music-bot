@@ -1,24 +1,24 @@
 import { Page, Browser } from "playwright";
-
-type actionHandlerProps = {
-  meetPage: Page;
-  musicPage: Page;
-};
-type actionHandler = (actionHandlerProps) => Promise<void>;
+import EventEmitter from "events";
+import { Feature } from "./features/types";
 
 class MusicBot {
   public url: string;
   public isDeactivated: boolean;
 
-  private browser: Browser;
-  private meetPage: Page;
-  private musicPage: Page;
+  public meetPage: Page;
+  public browser: Browser;
 
-  private actions: actionHandler[] = [];
+  private events = new EventEmitter();
 
-  constructor(meetUrl: string, browser: Browser) {
+  constructor(meetUrl: string, browser: Browser, features) {
     this.url = meetUrl;
     this.browser = browser;
+
+    for (const Feature of features) {
+      const feature = new Feature(this);
+      feature.connect();
+    }
 
     this.init();
   }
@@ -37,28 +37,26 @@ class MusicBot {
     await this.meetPage
       .locator('[aria-label="Turn off camera (⌘ + e)"]')
       .click();
+    await this.meetPage
+      .locator('[aria-label="Turn off microphone (⌘ + d)"]')
+      .click();
     await this.meetPage.locator("text=Ask to join").click();
+    await this.meetPage.waitForSelector('[aria-label="Leave call"]');
 
     console.log("Bot successfully joined!");
-
-    this.run();
+    this.emit("joined");
   }
 
-  async shutdown() {
+  shutdown() {
     this.isDeactivated = true;
   }
 
-  private async run() {
-    while (!this.isDeactivated) {
-      const currentPendingActions = [...this.actions];
-      this.actions = [];
+  on(eventName: string, callback) {
+    this.events.on(eventName, callback);
+  }
 
-      for (let i = currentPendingActions.length - 1; i >= 0; i--) {
-        const action = currentPendingActions[i];
-
-        await action({ meetPage: this.meetPage, musicPage: this.musicPage });
-      }
-    }
+  emit(eventName: string, arg?: string) {
+    this.events.emit(eventName, arg);
   }
 }
 
