@@ -1,6 +1,5 @@
 import { Page, Browser } from "playwright";
 import EventEmitter from "events";
-import { Feature } from "./features/types";
 
 class MusicBot {
   public url: string;

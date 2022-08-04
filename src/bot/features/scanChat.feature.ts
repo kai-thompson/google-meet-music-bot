@@ -6,7 +6,7 @@ import config from "../../../config";
 const COMMAND_PREFIX = config.COMMAND_PREFIX;
 
 type ChatMessage = {
-  messageID: string;ß
+  messageID: string;
   messageContent: string;
 };
 

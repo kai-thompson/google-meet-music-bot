@@ -37,8 +37,8 @@ class MessageManager implements Feature {
       const args = arg.substring(1).split(" ");
 
       const commandName = args[0];
-      const passedArgs = [...args]
-      passedArgs.shift()
+      const passedArgs = [...args];
+      passedArgs.shift();
 
       if (this.commands[commandName]) {
         const activeCommand = this.commands[commandName];
