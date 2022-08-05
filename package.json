@@ -24,7 +24,8 @@
     "ts-node": "^10.9.1"
   },
   "scripts": {
-    "start": "nodemon ./src/index.ts"
+    "start": "nodemon ./src/index.ts",
+    "start-ec2": "xvfb-run ts-node src/index.ts"
   },
   "dependencies": {
     "body-parser": "^1.20.0",

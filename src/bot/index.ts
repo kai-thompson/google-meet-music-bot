@@ -33,12 +33,14 @@ class MusicBot {
 
     await this.meetPage.waitForSelector('input[type="text"]');
     await this.meetPage.type('input[type="text"]', "Music Bot");
-    await this.meetPage
-      .locator('[aria-label="Turn off camera (⌘ + e)"]')
-      .click();
-    await this.meetPage
-      .locator('[aria-label="Turn off microphone (⌘ + d)"]')
-      .click();
+
+    if (await this.meetPage.$('[aria-label="Turn off camera (⌘ + e)"]')) {
+      await this.meetPage.click('[aria-label="Turn off camera (⌘ + e)"]');
+    }
+    if (await this.meetPage.$('[aria-label="Turn off microphone (⌘ + d)"]')) {
+      await this.meetPage.click('[aria-label="Turn off microphone (⌘ + d)"]');
+    }
+
     await this.meetPage.locator("text=Ask to join").click();
     await this.meetPage.waitForSelector('[aria-label="Leave call"]');
 
