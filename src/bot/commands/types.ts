@@ -1,6 +1,5 @@
 import MusicBot from "..";
 
-export type CommandProps = {
-  bot: MusicBot;
-  args: string[];
-};
+export interface Command {
+  execute: (args: string[]) => void;
+}

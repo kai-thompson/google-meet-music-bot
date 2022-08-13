@@ -20,8 +20,9 @@ class MessageManager implements Feature {
     for (const commandFile of commandFiles) {
       const command = await import(`../commands/${commandFile}`);
       const commandName = commandFile.replace(".command.ts", "");
+      const Command = command.default;
 
-      this.commands[commandName] = command.default;
+      this.commands[commandName] = new Command(this.bot);
     }
   }
 
@@ -43,7 +44,7 @@ class MessageManager implements Feature {
       if (this.commands[commandName]) {
         const activeCommand = this.commands[commandName];
 
-        activeCommand(this.bot, passedArgs);
+        activeCommand.execute(passedArgs);
       }
     });
   }
